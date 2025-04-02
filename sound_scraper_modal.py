@@ -7,12 +7,17 @@ import os
 from supabase_storage import SupabaseStorage
 import logging
 from tiktok_scraper import TikTokScraper
+import sys
 
 # Load environment variables
 load_dotenv()
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    stream=sys.stdout  # Explicitly write to stdout
+)
 logger = logging.getLogger(__name__)
 
 # Constants
@@ -24,7 +29,26 @@ CHECK_INTERVAL = timedelta(minutes=5)  # How often to check for sounds needing u
 app = modal.App("sound-tracker")
 
 # Create a Modal image with our dependencies
-image = modal.Image.debian_slim().pip_install(
+image = modal.Image.debian_slim().apt_install(
+    "libglib2.0-0",
+    "libnss3",
+    "libnspr4",
+    "libdbus-1-3",
+    "libatk1.0-0",
+    "libatk-bridge2.0-0",
+    "libatspi2.0-0",
+    "libxcomposite1",
+    "libxdamage1",
+    "libxext6",
+    "libxfixes3",
+    "libxrandr2",
+    "libgbm1",
+    "libxkbcommon0",
+    "libasound2",
+    "libcups2",
+    "libpango-1.0-0",
+    "libcairo2"
+).pip_install(
     "playwright",
     "aiohttp",
     "backoff",

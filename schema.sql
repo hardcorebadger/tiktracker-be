@@ -42,3 +42,9 @@ CREATE POLICY "Users can update their own sounds" ON sounds
     TO authenticated
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id); 
+
+-- Allow users to delete their own sounds
+CREATE POLICY "Users can delete their own sounds" ON sounds
+    FOR DELETE
+    TO authenticated
+    USING (auth.uid() = user_id);
