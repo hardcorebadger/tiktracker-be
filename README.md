@@ -170,25 +170,40 @@ backend/
 ### 2. Deployment
 
 ```bash
-# Deploy the Modal functions (includes 5-minute cron schedule)
+# Test locally (without Modal)
+python3 sound_scraper_modal.py
+
+# Test on Modal infrastructure
+modal run sound_scraper_modal.py
+
+# Deploy the scheduled job to Modal (includes 5-minute cron schedule)
 modal deploy sound_scraper_modal.py
 ```
 
-### 3. Local Testing
+### 3. Testing Options
 
-1. **Test the Core Scraper**
+1. **Local Testing** (No Modal)
    ```bash
-   # Test scraping functionality directly
-   python3 scrape_example.py
+   # Runs directly with Python, good for quick tests
+   python3 sound_scraper_modal.py
    ```
 
-2. **Test the Modal Deployment**
+2. **Modal Infrastructure Testing**
    ```bash
-   # Test the full Modal deployment
+   # Tests on Modal's infrastructure but doesn't deploy
    modal run sound_scraper_modal.py
+   ```
 
-   # Test the cron function directly
-   modal run sound_scraper_modal.py:modal_check_and_process_sounds
+3. **Deployment Testing**
+   ```bash
+   # View Modal logs after deployment
+   modal logs sound_scraper_modal.py
+
+   # Check cron status
+   modal cron list
+
+   # View Modal dashboard
+   modal dashboard
    ```
 
 ### 4. Automated Process

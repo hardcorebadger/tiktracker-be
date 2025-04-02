@@ -28,7 +28,7 @@ image = modal.Image.debian_slim().pip_install(
     "playwright",
     "aiohttp",
     "backoff",
-    "supabase-py",
+    "supabase",
     "python-dotenv",
 ).run_commands("playwright install chromium")
 
@@ -129,6 +129,14 @@ async def main():
     """Run the main job locally"""
     await check_and_process_sounds()
 
+async def local_test():
+    """Run a true local test without Modal"""
+    logging.info("Starting local test...")
+    await check_and_process_sounds()
+    logging.info("Local test complete")
+
 if __name__ == "__main__":
-    # Run the job locally
-    asyncio.run(check_and_process_sounds()) 
+    # For true local testing, uncomment this:
+    asyncio.run(local_test())
+    # For Modal testing, uncomment this:
+    # asyncio.run(check_and_process_sounds()) 
