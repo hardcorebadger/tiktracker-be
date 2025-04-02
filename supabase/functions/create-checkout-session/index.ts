@@ -37,6 +37,10 @@ Deno.serve(async (req) => {
 
     console.log('user', user)
 
+    // Get the origin for redirect URLs
+    const origin = req.headers.get('Origin') || 'http://localhost:8080'
+    console.log('Origin:', origin)
+
     console.log("sending request to stripe")
 
     // Create checkout session
@@ -49,8 +53,8 @@ Deno.serve(async (req) => {
         },
       ],
       mode: 'subscription',
-      success_url: 'http://localhost:8080/thank-you',
-      cancel_url: 'http://localhost:8080/paywall',
+      success_url: `${origin}/thank-you`,
+      cancel_url: `${origin}/paywall`,
       client_reference_id: user.id, // This will be used in the webhook
     });
 
