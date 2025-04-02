@@ -55,7 +55,7 @@ create table subscriptions (
   user_id uuid references auth.users not null,
   stripe_customer_id text,
   stripe_subscription_id text,
-  status text check (status in ('active', 'canceled', 'past_due')),
+  status text check (status in ('active', 'canceled', 'past_due', 'trialing')),
   current_period_end timestamp with time zone,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
