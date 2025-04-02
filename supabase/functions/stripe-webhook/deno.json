@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.39.0",
+    "stripe": "npm:stripe@14.17.0"
+  },
+  "tasks": {
+    "serve": "deno run --allow-net --allow-env index.ts"
+  }
+} 

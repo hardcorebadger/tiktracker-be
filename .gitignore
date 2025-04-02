@@ -35,4 +35,7 @@ ENV/
 .env
 proxies.json
 
+# Supabase
+supabase/.temp/
+
 .DS_Store 

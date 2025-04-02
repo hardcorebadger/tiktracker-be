@@ -48,3 +48,28 @@ CREATE POLICY "Users can delete their own sounds" ON sounds
     FOR DELETE
     TO authenticated
     USING (auth.uid() = user_id);
+
+-- Create subscriptions table
+create table subscriptions (
+  id uuid default uuid_generate_v4() primary key,
+  user_id uuid references auth.users not null,
+  stripe_customer_id text,
+  stripe_subscription_id text,
+  status text check (status in ('active', 'canceled', 'past_due')),
+  current_period_end timestamp with time zone,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+
+-- Add RLS policies
+alter table subscriptions enable row level security;
+
+-- Users can read their own subscription
+create policy "Users can view own subscription"
+  on subscriptions for select
+  using (auth.uid() = user_id);
+
+-- Only service role can insert/update/delete
+create policy "Service role can manage subscriptions"
+  on subscriptions for all
+  using (auth.role() = 'service_role');
